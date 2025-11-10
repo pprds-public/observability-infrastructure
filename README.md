@@ -14,7 +14,7 @@ It bundles **OpenTelemetry**, **Prometheus**, **Grafana**, **Loki**, and **Tempo
 >  
 > ⚖️ **Liability & Usage**
 Use of this repository or its components is **strictly at the user’s own risk**.
-**PPRD Systems, LLC** provides all materials **“as is,” without any warranties**, express or implied regarding accuracy, completeness, or fitness for purpose.
+**PPRD Systems, LLC** provides all materials **“as is,” without any warranties**, express or implied.
 > 
 > © **2025 PPRD Systems, LLC**. All rights reserved
 
@@ -171,7 +171,7 @@ We focus on:
 **Contact:** contact@pprdsystems.com
 
 ## License
-This project is licensed under the [Apache License](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE).
 
 
 > # ⚠️ Disclaimer
@@ -179,6 +179,6 @@ This project is licensed under the [Apache License](LICENSE).
 >  
 > ⚖️ **Liability & Usage**
 Use of this repository or its components is **strictly at the user’s own risk**.
-**PPRD Systems, LLC** provides all materials **“as is,” without any warranties**, express or implied regarding accuracy, completeness, or fitness for purpose.
+**PPRD Systems, LLC** provides all materials **“as is,” without any warranties**, express or implied.
 > 
 > © **2025 PPRD Systems, LLC**. All rights reserved
