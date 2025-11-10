@@ -1,0 +1,55 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:${OTEL_IMAGE_VERSION:-0.133.0}
+    container_name: ${OTEL_CONTAINER_NAME:-otel-collector}
+    command: ["--config=/etc/otel/collector-config.yml"]
+    volumes:
+      - ./volumes/otel/collector-config.yaml:/etc/otel/collector-config.yml
+    ports:
+      - "4317:4317"
+  
+  loki:
+    image: grafana/loki:${LOKI_IMAGE_VERSION:-3.5.3}
+    container_name: ${LOKI_CONTAINER_NAME:-loki}
+    command: -config.file=/etc/loki/loki-config.yaml
+    volumes:
+      - ./volumes/loki/loki.yaml:/etc/loki/loki-config.yaml
+    depends_on:
+      - otel-collector
+  
+  tempo:
+    image: grafana/tempo:${TEMPO_IMAGE_VERSION:-2.8.2}
+    container_name: ${TEMPO_CONTAINER_NAME:-tempo}
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./volumes/tempo/tempo.yaml:/etc/tempo.yaml
+    depends_on:
+      - otel-collector
+  
+  prometheus:
+    image: prom/prometheus:${PROMETHEUS_IMAGE_VERSION:-v3.5.0}
+    container_name: ${PROMETHEUS_CONTAINER_NAME:-prometheus}
+    volumes:
+      - ./volumes/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector
+  
+  grafana:
+    image: grafana/grafana:${GRAFANA_IMAGE_VERSION:-12.0}
+    container_name: ${GRAFANA_CONTAINER_NAME:-grafana}
+    volumes:
+      - ./volumes/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./volumes/grafana/dashboards:/etc/grafana/provisioning/dashboards 
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - loki
+      - prometheus
+      - tempo
